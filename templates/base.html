@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prodigy Forge | Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        :root { --sidebar-width: 280px; --brand-color: #00ff88; --dark-bg: #1a1a1a; }
+        body { background-color: #f8f9fa; font-family: 'Inter', sans-serif; display: flex; min-height: 100vh; margin: 0; }
+        .sidebar { width: var(--sidebar-width); background-color: var(--dark-bg); color: white; position: fixed; height: 100vh; display: flex; flex-direction: column; z-index: 1000; }
+        .sidebar-header { padding: 2rem 1.5rem; font-weight: 800; font-size: 1.25rem; color: var(--brand-color); letter-spacing: 1px; border-bottom: 1px solid #333; }
+        .nav-pills .nav-link { color: #adb5bd; border-radius: 0; padding: 1rem 1.5rem; border-left: 4px solid transparent; }
+        .nav-pills .nav-link:hover { background-color: #252525; color: var(--brand-color); }
+        .nav-pills .nav-link.active { background-color: #252525; color: var(--brand-color); border-left: 4px solid var(--brand-color); }
+        .main-wrapper { margin-left: var(--sidebar-width); width: 100%; display: flex; flex-direction: column; }
+        .top-navbar { background-color: white; padding: 1rem 2rem; border-bottom: 1px solid #eef0f2; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 999; }
+        .content-body { padding: 2rem; }
+        .card { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .btn-add { background-color: var(--brand-color); color: #1a1a1a; font-weight: 700; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="sidebar shadow">
+        <div class="sidebar-header"><i class="bi bi-lightning-charge-fill"></i> PRODIGY FORGE</div>
+        <div class="nav flex-column nav-pills mt-3">
+            <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}"><i class="bi bi-people me-3"></i> Members</a>
+            <a class="nav-link {% if request.resolver_match.url_name == 'workout_plans' %}active{% endif %}" href="{% url 'workout_plans' %}"><i class="bi bi-person-lines-fill me-3"></i> Workout Plans</a>
+            <a class="nav-link {% if request.resolver_match.url_name == 'tier_benefits' %}active{% endif %}" href="{% url 'tier_benefits' %}"><i class="bi bi-gem me-3"></i> Tier Benefits</a>
+            <a class="nav-link {% if request.resolver_match.url_name == 'member_archive' %}active{% endif %}" href="{% url 'member_archive' %}"><i class="bi bi-journal-medical me-3"></i> Archive & Contacts</a>
+        </div>
+    </div>
+
+    <div class="main-wrapper">
+        <nav class="top-navbar shadow-sm">
+            <h4 class="mb-0 fw-bold">{% block page_title %}Management Dashboard{% endblock %}</h4>
+            <a href="{% url 'add_member' %}" class="btn btn-add d-flex align-items-center">
+                <i class="bi bi-person-plus-fill me-2"></i> ADD NEW MEMBER
+            </a>
+        </nav>
+        <div class="content-body">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm mb-4" role="alert">
+                        {{ message }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

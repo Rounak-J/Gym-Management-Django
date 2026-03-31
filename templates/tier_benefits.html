@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block page_title %}Membership Privileges{% endblock %}
+{% block content %}
+<div class="card shadow-sm border-0">
+    <table class="table table-hover align-middle mb-0">
+        <thead class="table-dark">
+            <tr><th class="ps-4">Services</th><th class="text-center">Basic</th><th class="text-center">Pro</th><th class="text-center">Elite</th></tr>
+        </thead>
+        <tbody>
+            <tr><td class="ps-4">Gym Floor Access</td><td class="text-center text-success">✅</td><td class="text-center text-success">✅</td><td class="text-center text-success">✅</td></tr>
+            <tr><td class="ps-4">Diet Consultation</td><td class="text-center text-danger">❌</td><td class="text-center text-success">✅</td><td class="text-center text-success">✅</td></tr>
+            <tr><td class="ps-4">Personal Trainer</td><td class="text-center text-danger">❌</td><td class="text-center text-danger">❌</td><td class="text-center text-success">✅</td></tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

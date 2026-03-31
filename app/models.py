@@ -20,10 +20,11 @@ class Member(models.Model):
     registration_date = models.DateTimeField(default=timezone.now)
     duration_months = models.IntegerField(default=1)
     expiry_date = models.DateTimeField(null=True, blank=True)
+    
+    # NEW FIELD: This determines if they show on Dashboard or Archive
+    is_active = models.BooleanField(default=True) 
 
     def save(self, *args, **kwargs):
-        # Automatically calculate expiry date before saving
-        # Assuming 1 month = 30 days for simplicity
         if not self.expiry_date:
             self.expiry_date = self.registration_date + timedelta(days=30 * self.duration_months)
         super().save(*args, **kwargs)

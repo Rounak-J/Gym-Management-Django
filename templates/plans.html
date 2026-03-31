@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% block page_title %}Training Programs Directory{% endblock %}
+{% block content %}
+<div class="row g-4">
+    <div class="col-xl-4">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-header bg-dark text-white p-3">
+                <h5 class="mb-0 fw-bold">BEGINNER: FULL BODY</h5>
+                <small class="text-success">Ideal for: 0-6 Months experience</small>
+            </div>
+            <div class="card-body">
+                <h6 class="fw-bold text-uppercase small text-muted mb-3">Routine (3 Days/Week)</h6>
+                <ul class="list-group list-group-flush mb-3">
+                    <li class="list-group-item d-flex justify-content-between"><span>Goblet Squats</span> <strong>3 x 12</strong></li>
+                    <li class="list-group-item d-flex justify-content-between"><span>Push Ups (Form Focus)</span> <strong>3 x Max</strong></li>
+                    <li class="list-group-item d-flex justify-content-between"><span>Dumbbell Rows</span> <strong>3 x 10</strong></li>
+                    <li class="list-group-item d-flex justify-content-between"><span>Dumbbell Shoulder Press</span> <strong>3 x 12</strong></li>
+                    <li class="list-group-item d-flex justify-content-between"><span>Lat Pulldowns</span> <strong>3 x 10</strong></li>
+                    <li class="list-group-item d-flex justify-content-between"><span>Plank Hold</span> <strong>3 x 60s</strong></li>
+                </ul>
+                <div class="alert alert-light border-0 small">
+                    <i class="bi bi-info-circle me-1"></i> Focus on "Mind-Muscle Connection" and controlled eccentrics.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4">
+        <div class="card h-100 shadow-sm border-0 bg-primary text-white">
+            <div class="card-header border-bottom border-white-50 p-3">
+                <h5 class="mb-0 fw-bold">INTERMEDIATE: PPL</h5>
+                <small class="text-white-50">Push / Pull / Legs Split</small>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <span class="badge bg-white text-primary mb-2">PUSH DAY</span>
+                    <ul class="list-unstyled small">
+                        <li class="d-flex justify-content-between border-bottom border-white-50 py-1"><span>Flat Bench Press</span> <strong>4 x 8</strong></li>
+                        <li class="d-flex justify-content-between border-bottom border-white-50 py-1"><span>Incline DB Flys</span> <strong>3 x 12</strong></li>
+                        <li class="d-flex justify-content-between py-1"><span>Overhead Press</span> <strong>3 x 8</strong></li>
+                    </ul>
+                </div>
+                <div class="mb-3">
+                    <span class="badge bg-white text-primary mb-2">PULL DAY</span>
+                    <ul class="list-unstyled small">
+                        <li class="d-flex justify-content-between border-bottom border-white-50 py-1"><span>Deadlifts</span> <strong>3 x 5</strong></li>
+                        <li class="d-flex justify-content-between border-bottom border-white-50 py-1"><span>Barbell Rows</span> <strong>4 x 10</strong></li>
+                        <li class="d-flex justify-content-between py-1"><span>Face Pulls</span> <strong>3 x 15</strong></li>
+                    </ul>
+                </div>
+                <div>
+                    <span class="badge bg-white text-primary mb-2">LEGS DAY</span>
+                    <ul class="list-unstyled small">
+                        <li class="d-flex justify-content-between border-bottom border-white-50 py-1"><span>Barbell Squats</span> <strong>4 x 10</strong></li>
+                        <li class="d-flex justify-content-between py-1"><span>Leg Curls</span> <strong>3 x 12</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4">
+        <div class="card h-100 shadow-sm border-0 border-start border-warning border-5">
+            <div class="card-header bg-warning text-dark p-3">
+                <h5 class="mb-0 fw-bold">ELITE: ARNOLD SPLIT</h5>
+                <small>High Volume & Intensity</small>
+            </div>
+            <div class="card-body">
+                <div class="row g-2">
+                    <div class="col-6">
+                        <div class="p-2 border rounded mb-2">
+                            <strong class="d-block small">Chest & Back</strong>
+                            <span class="text-muted tiny" style="font-size: 0.7rem;">Supersets Focused</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-2 border rounded mb-2">
+                            <strong class="d-block small">Shoulders & Arms</strong>
+                            <span class="text-muted tiny" style="font-size: 0.7rem;">Isolation Focus</span>
+                        </div>
+                    </div>
+                </div>
+                <h6 class="fw-bold small mt-2">Key Compound Targets:</h6>
+                <div class="d-flex gap-2 flex-wrap mb-3">
+                    <span class="badge bg-dark">Squat 5x5</span>
+                    <span class="badge bg-dark">Bench 5x5</span>
+                    <span class="badge bg-dark">Deadlift 1x5</span>
+                    <span class="badge bg-dark">Clean & Press</span>
+                </div>
+                <p class="small text-muted">Designed for maximum hypertrophy. Requires 5-6 days of training with strict recovery and Elite nutrition plans.</p>
+                <div class="bg-light p-3 rounded">
+                    <strong class="small d-block mb-1 text-warning text-uppercase">Elite Facility Access:</strong>
+                    <ul class="small ps-3 mb-0">
+                        <li>Priority Rack Access</li>
+                        <li>Post-Workout Protein Bar</li>
+                        <li>Private Posing Room</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

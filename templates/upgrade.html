@@ -1,48 +1,154 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Upgrade Membership</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upgrade Membership | Prodigy Forge</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card shadow border-0">
-                    <div class="card-header bg-warning text-dark">
-                        <h4 class="mb-0">Upgrade Plan: {{ member.full_name }}</h4>
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Current Plan:</strong> 
-                            <span class="badge bg-primary">{{ member.plan.name }} (Tier {{ member.plan.tier_level }})</span>
-                        </p>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --sidebar-width: 280px;
+            --brand-color: #00ff88;
+            --dark-bg: #1a1a1a;
+        }
 
-                        <form method="POST">
-                            {% csrf_token %}
-                            <div class="mb-4">
-                                <label class="form-label">Select New Higher Tier Plan (Monthly Cost)</label>
-                                <select name="new_plan" class="form-select" required>
-                                    <option value="" disabled selected>-- Choose Upgrade --</option>
-                                    {% for plan in plans %}
-                                        {% if plan.tier_level > member.plan.tier_level %}
-                                            <option value="{{ plan.id }}">
-                                                {{ plan.name }} (Tier {{ plan.tier_level }}) - ₹{{ plan.price }}
-                                            </option>
-                                        {% endif %}
-                                    {% endfor %}
-                                </select>
-                                <div id="emailHelp" class="form-text text-danger">
-                                    Note: You cannot downgrade to a lower tier.
-                                </div>
+        body { background-color: #f8f9fa; font-family: 'Inter', sans-serif; display: flex; min-height: 100vh; }
+
+        /* Sidebar UI (Matching Dashboard) */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--dark-bg);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--brand-color);
+            letter-spacing: 1px;
+            border-bottom: 1px solid #333;
+        }
+
+        .nav-pills .nav-link { color: #adb5bd; padding: 1rem 1.5rem; border-left: 4px solid transparent; }
+        .nav-pills .nav-link:hover, .nav-pills .nav-link.active { color: var(--brand-color); background: #252525; border-left-color: var(--brand-color); }
+
+        /* Main Content */
+        .main-wrapper { margin-left: var(--sidebar-width); width: 100%; }
+        .top-navbar { background: white; padding: 1rem 2rem; border-bottom: 1px solid #eef0f2; }
+        .content-body { padding: 3rem 2rem; }
+
+        /* Pricing Card Styles */
+        .upgrade-card {
+            border: none;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .upgrade-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important; }
+        
+        .current-plan-border { border: 2px solid var(--brand-color) !important; }
+        .tier-label { font-weight: 700; color: #6c757d; text-transform: uppercase; font-size: 0.8rem; }
+        .price-tag { font-size: 2.5rem; font-weight: 800; color: #1a1a1a; }
+        .price-tag small { font-size: 1rem; color: #6c757d; }
+        
+        .feature-list { list-style: none; padding: 0; margin: 2rem 0; }
+        .feature-list li { padding: 0.5rem 0; display: flex; align-items: center; font-size: 0.95rem; }
+        .feature-list i { color: var(--brand-color); margin-right: 10px; font-size: 1.2rem; }
+        
+        .btn-upgrade { border-radius: 10px; padding: 0.8rem; font-weight: 700; transition: 0.3s; }
+        .disabled-card { opacity: 0.7; background-color: #f1f3f5; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar shadow">
+        <div class="sidebar-header">
+            <i class="bi bi-lightning-charge-fill"></i> PRODIGY FORGE
+        </div>
+        <div class="nav flex-column nav-pills mt-3">
+            <a class="nav-link active" href="{% url 'dashboard' %}"><i class="bi bi-people me-3"></i> Members</a>
+            <a class="nav-link" href="#"><i class="bi bi-calendar-check me-3"></i> Workout Plans</a>
+            <a class="nav-link" href="#"><i class="bi bi-archive me-3"></i> Past Members</a>
+            <a class="nav-link" href="#"><i class="bi bi-shield-check me-3"></i> Tier Benefits</a>
+        </div>
+    </div>
+
+    <div class="main-wrapper">
+        <nav class="top-navbar shadow-sm">
+            <div class="d-flex align-items-center">
+                <a href="{% url 'dashboard' %}" class="btn btn-sm btn-outline-dark me-3 rounded-circle">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
+                <h4 class="mb-0 fw-bold">Upgrade Membership</h4>
+            </div>
+        </nav>
+
+        <div class="content-body">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Level Up {{ member.full_name }}</h2>
+                <p class="text-muted">Current Plan: <span class="badge bg-dark">{{ member.plan.name }}</span></p>
+            </div>
+
+            <div class="row g-4 justify-content-center">
+                {% for plan in plans %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 shadow-sm upgrade-card 
+                        {% if plan.id == member.plan.id %}current-plan-border{% endif %}
+                        {% if plan.tier_level < member.plan.tier_level %}disabled-card{% endif %}">
+                        
+                        <div class="card-body p-4 d-flex flex-column">
+                            <div class="tier-label mb-2">Tier {{ plan.tier_level }}</div>
+                            <h4 class="fw-bold">{{ plan.name }}</h4>
+                            
+                            <div class="price-tag my-3">
+                                ₹{{ plan.price|floatformat:0 }}<small>/month</small>
                             </div>
 
-                            <button type="submit" class="btn btn-warning w-100">Confirm Upgrade</button>
-                            <a href="{% url 'dashboard' %}" class="btn btn-link w-100 mt-2">Cancel and Go Back</a>
-                        </form>
+                            <ul class="feature-list flex-grow-1">
+                                <li><i class="bi bi-check2-circle"></i> Full Gym Access</li>
+                                {% if plan.tier_level >= 2 %}
+                                <li><i class="bi bi-check2-circle"></i> Personalized Diet Plan</li>
+                                <li><i class="bi bi-check2-circle"></i> Locker Facility</li>
+                                {% endif %}
+                                {% if plan.tier_level == 3 %}
+                                <li><i class="bi bi-check2-circle"></i> 1-on-1 Personal Trainer</li>
+                                <li><i class="bi bi-check2-circle"></i> Steam & Sauna Access</li>
+                                {% endif %}
+                            </ul>
+
+                            {% if plan.tier_level > member.plan.tier_level %}
+                            <form method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="new_plan" value="{{ plan.id }}">
+                                <button type="submit" class="btn btn-dark w-100 btn-upgrade shadow-sm">
+                                    CONFIRM UPGRADE
+                                </button>
+                            </form>
+                            {% elif plan.id == member.plan.id %}
+                            <button class="btn btn-outline-success w-100 btn-upgrade" disabled>
+                                <i class="bi bi-check-lg"></i> ACTIVE PLAN
+                            </button>
+                            {% else %}
+                            <button class="btn btn-light w-100 btn-upgrade text-muted" disabled>
+                                NOT ELIGIBLE
+                            </button>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
