@@ -16,13 +16,14 @@ class Member(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     full_name = models.CharField(max_length=200)
     email = models.EmailField()
-    plan = models.ForeignKey(MembershipPlan, on_delete=models.SET_NULL, null=True)
+    phone_number = models.CharField(max_length=15, default="") # New Field
+    plan = models.ForeignKey(MembershipPlan, on_delete=models.SET_NULL, null=True, blank=True) # Now Optional
     registration_date = models.DateTimeField(default=timezone.now)
     duration_months = models.IntegerField(default=1)
     expiry_date = models.DateTimeField(null=True, blank=True)
-    
-    # NEW FIELD: This determines if they show on Dashboard or Archive
-    is_active = models.BooleanField(default=True) 
+    is_active = models.BooleanField(default=True)
+
+    # ... keep your save method the same ...
 
     def save(self, *args, **kwargs):
         if not self.expiry_date:

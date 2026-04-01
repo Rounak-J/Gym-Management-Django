@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block page_title %}Update Membership Profile{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        
+        <a href="{% url 'members_list' %}" class="btn btn-link text-dark mb-3 text-decoration-none p-0">
+            <i class="bi bi-arrow-left"></i> Back to Members List
+        </a>
+
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-dark text-white py-3">
+                <h5 class="mb-0 fw-bold"><i class="bi bi-pencil-square me-2"></i>Edit Member Details</h5>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <h6 class="text-uppercase text-muted small fw-bold mb-3">Contact Information</h6>
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Full Name</label>
+                        <input type="text" name="full_name" value="{{ member.full_name }}" class="form-control bg-light" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Email Address</label>
+                        <input type="email" name="email" value="{{ member.email }}" class="form-control bg-light" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label small fw-semibold">Phone Number</label>
+                        <input type="text" name="phone_number" value="{{ member.phone_number }}" class="form-control bg-light" placeholder="+91 XXXXX XXXXX">
+                    </div>
+
+                    <hr class="my-4">
+
+                    <h6 class="text-uppercase text-primary small fw-bold mb-3">Plan & Duration Assignment</h6>
+                    
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Select Membership Tier</label>
+                        <select name="plan" class="form-select border-primary" required>
+                            <option value="" disabled {% if not member.plan %}selected{% endif %}>-- Choose a Plan --</option>
+                            {% for plan in plans %}
+                                <option value="{{ plan.id }}" {% if member.plan.id == plan.id %}selected{% endif %}>
+                                    {{ plan.name }} (₹{{ plan.price }}/mo)
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <div class="form-text">Choosing a plan will automatically calculate the new expiry date.</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label small fw-semibold">Membership Duration (Months)</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i class="bi bi-calendar-range"></i></span>
+                            <input type="number" name="months" class="form-control" value="{{ member.duration_months }}" min="1" max="12" required>
+                        </div>
+                        <div class="form-text">Accepted range: 1 to 12 months.</div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-dark py-2 fw-bold">
+                            <i class="bi bi-check-circle me-1"></i> UPDATE MEMBER PROFILE
+                        </button>
+                        <a href="{% url 'members_list' %}" class="btn btn-outline-secondary py-2">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="mt-4 p-3 bg-white rounded shadow-sm">
+            <div class="d-flex align-items-center text-muted small">
+                <i class="bi bi-info-circle-fill me-2 text-primary"></i>
+                <span>Currently registered on: <strong>{{ member.registration_date|date:"d M, Y" }}</strong></span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
